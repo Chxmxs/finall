@@ -14,3 +14,11 @@ class Player:
         else: 
             self.cash -= 50 
             self.in_jail = False 
+ 
+#USED UMGPT for basic class formatting 
+class Property: 
+    def __init__(self, name, purchase_price, rent): 
+        self.name = name 
+        self.purchase_price = purchase_price 
+        self.rent = rent 
+        self.owner = None 
