@@ -22,3 +22,16 @@ class Property:
         self.purchase_price = purchase_price 
         self.rent = rent 
         self.owner = None 
+ 
+#USED UMGPT for buy and rent logic 
+    def buy(self, player): 
+        if self.owner is None and player.cash 
+            player.cash -= self.purchase_price 
+            self.owner = player 
+            player.owned_properties.append(self) 
+ 
+    def pay_rent(self, player): 
+        if self.owner and self.owner != player: 
+            rent_amount = self.rent 
+            player.cash -= rent_amount 
+            self.owner.cash += rent_amount 
