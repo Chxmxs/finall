@@ -61,3 +61,8 @@ properties = [
     Property("Park Place", 350, 35), 
     Property("Boardwalk", 400, 50) 
 ] 
+ 
+#USED UMGPT for dice roll logic 
+import random 
+def roll_dice(): 
+    return random.randint(1, 6) + random.randint(1, 6) 
