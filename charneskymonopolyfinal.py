@@ -66,3 +66,10 @@ properties = [
 import random 
 def roll_dice(): 
     return random.randint(1, 6) + random.randint(1, 6) 
+ 
+#USED UMGPT for initializing players 
+def initialize_players(): 
+    player_count = int(input("How many players? (2-8): ")) 
+        print("Invalid number of players.") 
+        player_count = int(input("How many players? (2-8): ")) 
+    return [Player(f"Player {i+1}") for i in range(player_count)] 
