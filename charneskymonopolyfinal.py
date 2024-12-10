@@ -79,3 +79,13 @@ def game_loop():
     players = initialize_players() 
     board_size = len(properties) 
     game_over = False 
+ 
+    while not game_over: 
+        for player in players: 
+            print(f"\n{player.name}'s turn. Cash: ${player.cash}") 
+            input("Press Enter to roll the dice...") 
+            steps = roll_dice() 
+            print(f"{player.name} rolled {steps}.") 
+            player.move(steps, board_size) 
+            current_property = properties[player.current_space] 
+            print(f"Landed on {current_property.name}.") 
