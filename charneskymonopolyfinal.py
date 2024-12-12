@@ -89,3 +89,13 @@ def game_loop():
             player.move(steps, board_size) 
             current_property = properties[player.current_space] 
             print(f"Landed on {current_property.name}.") 
+ 
+            if current_property.owner is None: 
+                print(f"Property available for purchase at ${current_property.purchase_price}.") 
+                buy_choice = input("Do you want to buy it? (y/n): ").lower() 
+                if buy_choice == 'y': 
+                    current_property.buy(player) 
+                    print(f"{player.name} bought {current_property.name}.") 
+            else: 
+                current_property.pay_rent(player) 
+                print(f"{player.name} paid ${current_property.rent} rent to {current_property.owner.name}.") 
