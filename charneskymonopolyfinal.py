@@ -99,3 +99,10 @@ def game_loop():
             else: 
                 current_property.pay_rent(player) 
                 print(f"{player.name} paid ${current_property.rent} rent to {current_property.owner.name}.") 
+ 
+                print(f"{player.name} is bankrupt!") 
+                players.remove(player) 
+            if len(players) == 1: 
+                print(f"{players[0].name} wins the game!") 
+                game_over = True 
+                break 
