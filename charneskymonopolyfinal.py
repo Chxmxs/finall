@@ -10,7 +10,7 @@ class Player:
 #USED UMGPT for movement logic 
     def move(self, steps, board_size): 
         if not self.in_jail: 
-            self.current_space = (self.current_space + steps) %% board_size 
+            self.current_space = (self.current_space + steps) % board_size
         else: 
             self.cash -= 50 
             self.in_jail = False 
@@ -25,7 +25,7 @@ class Property:
  
 #USED UMGPT for buy and rent logic 
     def buy(self, player): 
-        if self.owner is None and player.cash 
+        if self.owner is None and player.cash:
             player.cash -= self.purchase_price 
             self.owner = player 
             player.owned_properties.append(self) 
@@ -69,9 +69,10 @@ def roll_dice():
  
 #USED UMGPT for initializing players 
 def initialize_players(): 
-    player_count = int(input("How many players? (2-8): ")) 
-        print("Invalid number of players.") 
-        player_count = int(input("How many players? (2-8): ")) 
+    player_count = int(input("How many players? (2-8): "))
+    while player_count < 2 or player_count > 8:
+        print("Invalid number of players.")
+        player_count = int(input("How many players? (2-8): "))
     return [Player(f"Player {i+1}") for i in range(player_count)] 
  
 #USED UMGPT for game loop structure 
@@ -105,4 +106,8 @@ def game_loop():
             if len(players) == 1: 
                 print(f"{players[0].name} wins the game!") 
                 game_over = True 
-                break 
+                break
+
+if __name__ == "__main__":
+    print("Welcome to Mmonopoly!")
+    game_loop()
