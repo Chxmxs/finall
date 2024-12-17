@@ -1,4 +1,4 @@
-#USED UMGPT for structure and logic 
+#USED UMGPT for structure and logic (not copy paste, just initial structure for each)
 class Player: 
     def __init__(self, name, cash=1500): 
         self.name = name 
