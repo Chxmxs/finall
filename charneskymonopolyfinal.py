@@ -62,7 +62,7 @@ properties = [
     Property("Boardwalk", 400, 50) 
 ] 
  
-#USED UMGPT for dice roll logic 
+#USED UMGPT for line 68 (debug) dice logic
 import random 
 def roll_dice(): 
     return random.randint(1, 6) + random.randint(1, 6) 
