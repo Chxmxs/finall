@@ -25,16 +25,16 @@ class Property:
  
 #USED UMGPT for buy and rent logic 
     def buy(self, player): 
-        if self.owner is None and player.cash:
+        if self.owner is None and player.cash >= self.purchase_price:
             player.cash -= self.purchase_price 
             self.owner = player 
             player.owned_properties.append(self) 
  
     def pay_rent(self, player): 
-        if self.owner and self.owner != player: 
-            rent_amount = self.rent 
-            player.cash -= rent_amount 
-            self.owner.cash += rent_amount 
+        if self.owner and self.owner != player:
+            rent_amount = self.rent
+            player.cash -= rent_amount
+            self.owner.cash += rent_amount
  
 #USED UMGPT for full property list 
 properties = [ 
@@ -82,13 +82,24 @@ def game_loop():
     game_over = False 
  
     while not game_over: 
-        for player in players: 
-            print(f"\n{player.name}'s turn. Cash: ${player.cash}") 
-            input("Press Enter to roll the dice...") 
-            steps = roll_dice() 
-            print(f"{player.name} rolled {steps}.") 
-            player.move(steps, board_size) 
-            current_property = properties[player.current_space] 
+        for player in players:
+            if player.cash <= 0:
+                print(f"{player.name} is out of money and out of the game!")
+                players.remove(player)
+                continue
+
+            print(f"\n{player.name}'s turn. Cash: ${player.cash}")
+            if player.in_jail:
+                print(f"{player.name} is in jail. Paying $50 to get out.")
+                player.move(0, board_size)  # pay to leave jail
+                continue
+
+            input("Press Enter to roll the diec")
+            steps = roll_dice()
+            print(f"{player.name} rolled {steps}.")
+            player.move(steps, board_size)
+
+            current_property = properties[player.current_space]
             print(f"Landed on {current_property.name}.") 
  
             if current_property.owner is None: 
@@ -109,5 +120,5 @@ def game_loop():
                 break
 
 if __name__ == "__main__":
-    print("Welcome to Mmonopoly!")
+    print("Welcome to monopoly!")
     game_loop()
