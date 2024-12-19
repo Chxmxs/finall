@@ -23,12 +23,17 @@ class Property:
         self.rent = rent 
         self.owner = None 
  
-#USED UMGPT for buy and rent logic 
+#USED UMGPT for buy and rent logic (debug work)
     def buy(self, player): 
         if self.owner is None and player.cash >= self.purchase_price:
             player.cash -= self.purchase_price 
             self.owner = player 
-            player.owned_properties.append(self) 
+            player.owned_properties.append(self)
+            print(f"{player.name} successfully bought {self.name}.")
+        elif player.cash < self.purchase_price:
+            print(f"{player.name} dosn't have enough cash to buy {self.name}.")
+        else:
+            print(f"{self.name} is already bought by {self.owner.name}.")
  
     def pay_rent(self, player): 
         if self.owner and self.owner != player:
@@ -81,7 +86,7 @@ def game_loop():
     board_size = len(properties) 
     game_over = False 
  
-    while not game_over: 
+    while not game_over:
         for player in players:
             if player.cash <= 0:
                 print(f"{player.name} is out of money and out of the game!")
@@ -102,16 +107,21 @@ def game_loop():
             current_property = properties[player.current_space]
             print(f"Landed on {current_property.name}.") 
  
-            if current_property.owner is None: 
-                print(f"Property available for purchase at ${current_property.purchase_price}.") 
-                buy_choice = input("Do you want to buy it? (y/n): ").lower() 
-                if buy_choice == 'y': 
-                    current_property.buy(player) 
-                    print(f"{player.name} bought {current_property.name}.") 
+            if current_property.owner is None:
+                if player.cash >= current_property.purchase_price:
+                    print(f"Property available for purchase at ${current_property.purchase_price}.")
+                    buy_choice = input("Do you want to buy it? (y/n): ").lower()
+                    if buy_choice == 'y':
+                        current_property.buy(player)
+                    print(f"{player.name} bought {current_property.name}.")
+                else:
+                    print(
+                        f"You don't have enough cash to buy {current_property.name}. It costs ${current_property.purchase_price}.")
             else: 
                 current_property.pay_rent(player) 
-                print(f"{player.name} paid ${current_property.rent} rent to {current_property.owner.name}.") 
- 
+                print(f"{player.name} paid ${current_property.rent} rent to {current_property.owner.name}.")
+
+            if player.cash <= 0:
                 print(f"{player.name} is bankrupt!") 
                 players.remove(player) 
             if len(players) == 1: 
