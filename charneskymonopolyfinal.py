@@ -96,7 +96,7 @@ def game_loop():
             print(f"\n{player.name}'s turn. Cash: ${player.cash}")
             if player.in_jail:
                 print(f"{player.name} is in jail. Paying $50 to get out.")
-                player.move(0, board_size)  # pay to leave jail
+                player.move(0, board_size)  #50 dollars to pay jail, if you cant afford then it wont allow you to pay it and skips ur option to
                 continue
 
             input("Press Enter to roll the diec")
