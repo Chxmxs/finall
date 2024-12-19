@@ -75,7 +75,7 @@ def initialize_players():
         player_count = int(input("How many players? (2-8): "))
     return [Player(f"Player {i+1}") for i in range(player_count)] 
  
-#USED UMGPT for game loop structure (did code by myself and had to re-debug)
+#USED UMGPT for game loop structure (did this whole code by myself and had to re-debug)
 def game_loop(): 
     players = initialize_players() 
     board_size = len(properties) 
