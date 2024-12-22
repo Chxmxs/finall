@@ -1,4 +1,6 @@
+import json
 #USED UMGPT for structure and logic (not copy paste, just initial structure for each)
+
 class Player: 
     def __init__(self, name, cash=1500): 
         self.name = name 
@@ -68,10 +70,48 @@ properties = [
 ] 
  
 #USED UMGPT for line 68 (debug) dice logic
-import random 
+import random
 def roll_dice(): 
-    return random.randint(1, 6) + random.randint(1, 6) 
- 
+    return random.randint(1, 6) + random.randint(1, 6)
+
+
+def save_game(players):
+    with open("monopoly_save.json", "w") as save_file:
+        save_data = {
+            "players": [
+                {
+                    "name": player.name,
+                    "cash": player.cash,
+                    "current_space": player.current_space,
+                    "owned_properties": [prop.name for prop in player.owned_properties],
+                    "in_jail": player.in_jail
+                }
+                for player in players
+            ]
+        }
+        json.dump(save_data, save_file)
+        print("game was saved successfully")
+
+ #USED UMGPT to debug this i kept getting the variables mixed up
+def load_game():
+    try:
+        with open("monopoly_save.json", "r") as save_file:
+            save_data = json.load(save_file)
+            players = []
+            for pdata in save_data["players"]:
+                player = Player(pdata["name"], pdata["cash"])
+                player.current_space = pdata["current_space"]
+                player.in_jail = pdata["in_jail"]
+                player.owned_properties = [
+                    next(prop for prop in properties if prop.name == pname)
+                    for pname in pdata["owned_properties"]
+                ]
+                players.append(player)
+            return players
+    except FileNotFoundError:
+        print("no saved game found, starting a new game!")
+        return initialize_players()
+
 #USED UMGPT for initializing players 
 def initialize_players(): 
     player_count = int(input("How many players? (2-8): "))
@@ -81,13 +121,23 @@ def initialize_players():
     return [Player(f"Player {i+1}") for i in range(player_count)] 
  
 #USED UMGPT for game loop structure (did this whole code by myself and had to re-debug)
-def game_loop(): 
-    players = initialize_players() 
-    board_size = len(properties) 
+def game_loop():
+    choice = input("do you want to start game or load one (new/load): ").lower()
+    if choice == "load":
+        players = load_game()
+    else:
+        players = initialize_players()
+
+    board_size = len(properties)
     game_over = False 
  
     while not game_over:
-        for player in players:
+        for i, player in enumerate(players):
+            if i == 0:
+                save_choice = input("do you wanna save the game? (y/n): ").lower()
+                if save_choice == "y":
+                    save_game(players)
+
             if player.cash <= 0:
                 print(f"{player.name} is out of money and out of the game!")
                 players.remove(player)
